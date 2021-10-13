@@ -6,21 +6,47 @@ import json
 import logging
 from opencensus.ext.stackdriver import trace_exporter as stackdriver_exporter
 import opencensus.trace.tracer
+import time
+import random
+import math
 
 logging.basicConfig(level=logging.DEBUG)
 
 db_host = os.environ.get("DB_HOST", "localhost")
 db_user = os.environ.get("DB_USER", "postgres")
 db_password = os.environ.get("DB_PASSWORD", "1234")
+db_name = os.environ.get("DB_NAME", "hello-world-db")
 
 app = Flask(__name__)
-db = peewee.PostgresqlDatabase('helloworld', host=db_host, user=db_user, password=db_password)
+db = peewee.PostgresqlDatabase(db_name, host=db_host, user=db_user, password=db_password)
 
 
 @app.route('/')
 def route_default():
+    start = time.time()
     data = Text.get_by_id(1)
-    return render_template('index.html', text=data.text)
+    end = time.time()
+    return render_template('index.html', text=data.text, seconds=round(end-start, 4))
+
+
+@app.route('/bad')
+def route_bad():
+    start = time.time()
+    try:
+        Text.get_by_id(100)
+    except Exception as e:
+        data = str(e)
+    end = time.time()
+    return render_template('index.html', text=data, seconds=round(end-start, 4)), 500
+
+
+@app.route('/slow')
+def route_slow():
+    start = time.time()
+    data = Text.get_by_id(1)
+    time.sleep(random.randint(10, 10000)/1000)
+    end = time.time()
+    return render_template('index.html', text=data.text, seconds=round(end-start, 4))
 
 
 @app.route('/health')
@@ -65,7 +91,6 @@ def main(*args, **kwargs):
     logging.debug('Starting Hello-World app')
     init_tracer()
     init_database()
-    start_flask(**kwargs)
 
 
 def start_flask(**kwargs):
@@ -73,5 +98,8 @@ def start_flask(**kwargs):
     app.run(host='0.0.0.0', port=8080, debug=False)
 
 
+app.before_first_request(main)
+
 if __name__ == '__main__':
     main()
+    start_flask()
