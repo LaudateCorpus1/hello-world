@@ -1,0 +1,15 @@
+runtime: python
+
+runtime_config:
+  python_version: 3
+
+entrypoint: gunicorn -b :$PORT main:main
+
+env_variables:
+  DB_USER: postgres
+  DB_PASSWORD: 1234
+  DB_HOST: localhost
+
+handlers:
+  - url: /static
+    static_dir: static
