@@ -1,0 +1,19 @@
+runtime: python
+env: flex
+
+runtime_config:
+  python_version: 3
+
+entrypoint: gunicorn -b :$PORT main:app
+
+env_variables:
+  DB_USER: postgres
+  DB_PASSWORD: secretpassword
+  DB_HOST: 172.17.0.1
+
+handlers:
+  - url: /static
+    static_dir: static
+
+beta_settings:
+  cloud_sql_instances: idme-328822:us-east1:hello-world-db-instance=tcp:5432
