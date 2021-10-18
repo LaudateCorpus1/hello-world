@@ -100,6 +100,7 @@ def start_flask(**kwargs):
 
 app.before_first_request(main)
 
+
 if __name__ == '__main__':
     main()
     start_flask()
