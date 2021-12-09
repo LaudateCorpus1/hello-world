@@ -1,8 +1,11 @@
+click==8.0.3
+flake8==4.0.1
 Flask==2.0.2
-opencensus==0.8.0
-opencensus-ext-stackdriver==0.8.0
-peewee==3.14.4
-psycopg2==2.9.1
 gunicorn==20.1.0
-grpcio
-grpcio-tools
+itsdangerous==2.0.1
+Jinja2==3.0.3
+MarkupSafe==2.0.1
+mccabe==0.6.1
+pycodestyle==2.8.0
+pyflakes==2.4.0
+Werkzeug==2.0.2
