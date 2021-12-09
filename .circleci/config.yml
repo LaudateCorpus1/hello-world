@@ -29,4 +29,6 @@ workflows:
   hello-world:
     jobs:
       - build-and-test
-      - dockerize
+      - dockerize:
+          requires:
+              - build-and-test
