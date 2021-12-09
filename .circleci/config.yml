@@ -6,6 +6,7 @@ orbs:
 
 jobs:
   build-and-test:
+    resource_class: medium+
     docker:
       - image: cimg/python:3.8
     steps:
@@ -17,6 +18,7 @@ jobs:
 
   dockerize:
     executor: docker/docker
+    resource_class: medium+
     steps:
       - checkout
       - setup_remote_docker:
