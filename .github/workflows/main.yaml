@@ -1,10 +1,11 @@
 name: Hello World
 
 on:
+  workflow-dispatch:
   push:
-    branches: [ $default-branch ]
+    branches: [ main ]
   pull_request:
-    branhces: [ $default-branch ]
+    branhces: [ main ]
 
 jobs:
   test:
