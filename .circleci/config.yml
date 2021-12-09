@@ -14,6 +14,10 @@ jobs:
           pkg-manager: pip
       - run: python -m unittest main.py -v
       - run: flake8 main.py --max-line-length=128 --count --statistics --show-source
+
+  dockerize:
+    executor: docker/docker
+    steps:
       - docker/build:
           image: idme/hello-world
           tag: latest
@@ -22,3 +26,4 @@ workflows:
   hello-world:
     jobs:
       - build-and-test
+      - dockerize
