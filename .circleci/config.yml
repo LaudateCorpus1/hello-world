@@ -18,6 +18,7 @@ jobs:
   dockerize:
     executor: docker/docker
     steps:
+      - checkout
       - docker/build:
           image: idme/hello-world
           tag: latest
