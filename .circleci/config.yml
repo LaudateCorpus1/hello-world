@@ -29,7 +29,7 @@ jobs:
 
 workflows:
   version: 2
-  hello-world:
+  hello-world-schedule:
     triggers:
       - schedule:
           cron: '15 * * * *'
@@ -37,6 +37,12 @@ workflows:
             branches:
               only:
                 - main
+    jobs:
+      - build-and-test
+      - dockerize:
+          requires:
+              - build-and-test
+  hello-world:
     jobs:
       - build-and-test
       - dockerize:
