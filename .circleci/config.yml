@@ -28,10 +28,11 @@ jobs:
           tag: latest
 
 workflows:
+  version: 2
   hello-world:
     triggers:
       - schedule:
-          cron: '*/15 * * * *'
+          cron: '15 * * * *'
           filters:
             branches:
               only:
